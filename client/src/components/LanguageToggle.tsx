@@ -20,10 +20,8 @@ export default function LanguageToggle() {
     <div className="flex items-center space-x-2 bg-gray-100 rounded-lg p-1">
       {languages.map((language) => (
         <motion.div key={language.code}>
-          <Button
-            variant="ghost"
-            size="sm"
-            className={`flex items-center space-x-1 px-2 py-1 text-sm font-medium transition-all ${
+          <motion.button
+            className={`flex items-center space-x-1 px-2 py-1 text-sm font-medium transition-all rounded ${
               currentLanguage === language.code
                 ? "bg-white shadow-sm text-gray-900"
                 : "text-gray-600 hover:bg-white hover:shadow-sm"
@@ -34,7 +32,7 @@ export default function LanguageToggle() {
           >
             <span>{language.flag}</span>
             <span>{language.code}</span>
-          </Button>
+          </motion.button>
         </motion.div>
       ))}
     </div>
