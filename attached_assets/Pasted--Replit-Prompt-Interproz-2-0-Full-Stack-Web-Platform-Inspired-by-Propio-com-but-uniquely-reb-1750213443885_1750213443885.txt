@@ -1,0 +1,85 @@
+// Replit Prompt: Interproz 2.0 – Full-Stack Web Platform
+// Inspired by Propio.com but uniquely rebuilt for Interproz
+// Stack: Next.js + Tailwind CSS (frontend), Node.js + Express (backend), Supabase (DB), Vercel (deployment)
+
+/**
+ * 🔐 COMPLIANCE-READY
+ * - HIPAA & NDAA awareness baked in: no non-U.S. infra dependencies
+ * - Fully secure: HTTPS enforced, Supabase RBAC, JWT Auth
+ * - Interpreter confidentiality and client data privacy prioritized
+ */
+
+/**
+ * 🎨 UI/UX DIRECTION
+ * - Inspired by Interproz’s real website: light gradient blue + white scheme (#2A64B2, #EAF2FB)
+ * - Sleek, modern, animated transitions (Framer Motion)
+ * - Navigation: sticky nav with multi-language toggle (🇪🇸🇺🇸), accessible tabs
+ */
+
+/**
+ * 🧠 CONTENT SOURCED FROM:
+ * http://interproz.com/
+ * http://interproz.com/nosotros.html
+ * http://interproz.com/contacto.html
+ * http://interproz.com/clientes.html
+ * http://interproz.com/servicios.html
+ * http://interproz.com/productos/specialty-fields.html
+ */
+
+// 🌐 Pages:
+- Home (copy sourced)
+- About Us / Mission Statement
+- Services (Translation, Interpretation, Transcription, Audio Dubbing)
+- Specialty Fields (Legal, Medical, Academic, Advertising, Human Services, Finance)
+- Clients (Case Studies, Testimonials)
+- Contact
+- Dashboard (Client + Interpreter + Admin)
+- Interpreter Marketplace (Claimable Jobs)
+
+// 📦 Features:
+1. Auth (Supabase): Admin, Client, Interpreter roles
+2. Dashboard with tabbed views: Schedule / Jobs / Files / Messages / Ratings
+3. Booking form (Client): pick language, date/time, modality (OPI/VRI/in-person)
+4. Interpreter Availability Calendar (Google Calendar-like)
+5. Auto-Match Engine: match by cert, rating, availability, field
+6. AI-powered doc translation (DeepL API) + post-edit queue
+7. Billing (Stripe): pay-per-minute, subscriptions, invoices
+8. Video & Phone Sessions: WebRTC + optional Zoom fallback
+9. Interpreter CRM (certs, languages, ratings, notes)
+10. Admin Panel: analytics, user CRUD, specialty tagging, alerts
+11. Public Job Board (for freelance interpreters to claim)
+12. Mobile responsive + animated page transitions (Framer Motion)
+13. Email/PDF notifications (Nodemailer + template system)
+14. GDPR/HIPAA-compliant document storage (Supabase buckets)
+
+// 🧱 Database Schema (Supabase)
+Tables:
+- users (id, role, name, email, password, languages[], specialties[], rating)
+- jobs (id, client_id, interpreter_id, status, start_time, end_time, type, modality, specialty, location, files[], rating)
+- specialties (id, name, description)
+- messages (id, job_id, sender_id, text, timestamp)
+- documents (id, job_id, type, ai_translated_url, human_edited_url, status)
+- availability (interpreter_id, day, time_range[])
+- ratings (job_id, interpreter_id, client_rating, comments)
+- invoices (job_id, client_id, amount, status, stripe_invoice_id)
+
+// 🔧 Dev Setup:
+1. Clone to Replit
+2. Connect Supabase project
+3. Set Vercel env vars: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE, STRIPE_SECRET_KEY, ZOOM_API_KEY, DEEPL_API_KEY
+4. Run migrations + seed specialties
+5. Deploy frontend (Vercel) + backend (Fly.io or Supabase Edge Functions)
+6. Optional: Add Notion API integration for ticketing/docs
+
+// ✅ Ethics:
+- Unique design, not visually cloned from Propio
+- Respect for interpreter labor: dashboards highlight feedback, fair pay
+- Clear disclaimers for AI assistance, opt-in for AI editing
+- All public data anonymized unless consent given
+
+// Future Enhancements:
+- Mobile app using Expo/React Native
+- Interpreter wellness tracker (burnout alerts)
+- ZK credentialing system
+- AI dialect detection for routing
+- Whitelabeling: convert this into a SaaS license kit for other agencies
