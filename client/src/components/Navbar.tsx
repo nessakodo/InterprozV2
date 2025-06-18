@@ -51,8 +51,8 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link key={item.name} href={item.href}>
-                <motion.a
-                  className={`font-medium transition-colors duration-200 ${
+                <motion.span
+                  className={`font-medium transition-colors duration-200 cursor-pointer ${
                     location === item.href
                       ? "text-interproz-blue"
                       : "text-gray-700 hover:text-interproz-blue"
@@ -61,7 +61,7 @@ export default function Navbar() {
                   whileTap={{ scale: 0.95 }}
                 >
                   {item.name}
-                </motion.a>
+                </motion.span>
               </Link>
             ))}
           </div>
@@ -118,8 +118,8 @@ export default function Navbar() {
                 <div className="flex flex-col space-y-4 mt-8">
                   {navigation.map((item) => (
                     <Link key={item.name} href={item.href}>
-                      <motion.a
-                        className={`block py-2 px-4 rounded-lg font-medium transition-colors ${
+                      <motion.span
+                        className={`block py-2 px-4 rounded-lg font-medium transition-colors cursor-pointer ${
                           location === item.href
                             ? "bg-interproz-light text-interproz-blue"
                             : "text-gray-700 hover:bg-gray-100"
@@ -128,7 +128,7 @@ export default function Navbar() {
                         whileTap={{ scale: 0.95 }}
                       >
                         {item.name}
-                      </motion.a>
+                      </motion.span>
                     </Link>
                   ))}
                   
