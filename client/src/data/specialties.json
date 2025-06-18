@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Medical",
+    "description": "Healthcare and medical interpretation for hospitals, clinics, and medical facilities"
+  },
+  {
+    "id": 2,
+    "name": "Legal",
+    "description": "Court and legal interpretation for legal proceedings, depositions, and attorney consultations"
+  },
+  {
+    "id": 3,
+    "name": "Business",
+    "description": "Corporate and business interpretation for meetings, negotiations, and international communications"
+  },
+  {
+    "id": 4,
+    "name": "Academic",
+    "description": "Educational interpretation for schools, universities, and academic institutions"
+  },
+  {
+    "id": 5,
+    "name": "Human Services",
+    "description": "Social services interpretation for government agencies and community programs"
+  },
+  {
+    "id": 6,
+    "name": "Financial",
+    "description": "Banking and financial services interpretation for consultations and transactions"
+  },
+  {
+    "id": 7,
+    "name": "Technical",
+    "description": "Technical and engineering interpretation for specialized technical fields"
+  },
+  {
+    "id": 8,
+    "name": "Government",
+    "description": "Government and public sector interpretation for official proceedings and services"
+  }
+]

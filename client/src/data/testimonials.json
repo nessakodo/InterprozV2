@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Dr. Sarah Martinez",
+    "role": "Chief Medical Officer",
+    "organization": "Regional Medical Center",
+    "content": "Interproz has transformed how we serve our diverse patient population. The video remote interpretation service has been a game-changer for our emergency department, providing instant access to certified medical interpreters 24/7.",
+    "rating": 5,
+    "specialty": "Medical"
+  },
+  {
+    "name": "Michael Chen",
+    "role": "Immigration Attorney",
+    "organization": "Chen & Associates Law Firm",
+    "content": "The legal interpretation services provided by Interproz are exceptional. Their court-certified interpreters understand the nuances of legal terminology and help ensure our clients receive fair representation regardless of language barriers.",
+    "rating": 5,
+    "specialty": "Legal"
+  },
+  {
+    "name": "Jennifer Rodriguez",
+    "role": "International Business Director",
+    "organization": "Global Trade Solutions",
+    "content": "Working with international partners requires clear communication. Interproz's business interpreters have facilitated smooth negotiations and helped us expand into new markets with confidence.",
+    "rating": 5,
+    "specialty": "Business"
+  },
+  {
+    "name": "Dr. Ahmed Hassan",
+    "role": "Emergency Department Director",
+    "organization": "City General Hospital",
+    "content": "In emergency situations, every second counts. The immediate availability of Arabic and Somali interpreters through Interproz has literally helped save lives by ensuring accurate communication during critical moments.",
+    "rating": 5,
+    "specialty": "Medical"
+  },
+  {
+    "name": "Maria Gonzalez",
+    "role": "School Principal",
+    "organization": "Lincoln Elementary School",
+    "content": "Parent-teacher conferences are much more productive with professional interpretation services. Interproz interpreters help us build stronger relationships with Spanish-speaking families and ensure every child gets the support they need.",
+    "rating": 5,
+    "specialty": "Academic"
+  },
+  {
+    "name": "Robert Thompson",
+    "role": "Human Resources Director",
+    "organization": "Metropolitan Social Services",
+    "content": "Our agency serves a multilingual community, and Interproz helps us ensure equitable access to services. The interpreters are culturally sensitive and professionally trained, making all the difference in client interactions.",
+    "rating": 4,
+    "specialty": "Human Services"
+  },
+  {
+    "name": "Lisa Wang",
+    "role": "Court Administrator",
+    "organization": "Superior Court of Justice",
+    "content": "Access to justice requires clear communication. Interproz provides reliable court interpretation services that uphold the integrity of our legal proceedings while ensuring all parties can fully participate.",
+    "rating": 5,
+    "specialty": "Legal"
+  },
+  {
+    "name": "Carlos Mendoza",
+    "role": "Plant Manager",
+    "organization": "Advanced Manufacturing Inc.",
+    "content": "Safety training is critical in our industry. Interproz interpreters help us ensure that all employees, regardless of their primary language, understand safety protocols and procedures completely.",
+    "rating": 4,
+    "specialty": "Business"
+  },
+  {
+    "name": "Dr. Fatima Al-Rashid",
+    "role": "Pediatric Specialist",
+    "organization": "Children's Medical Group",
+    "content": "Treating children requires building trust with both the patient and parents. Arabic interpretation services from Interproz help us provide compassionate care while ensuring parents are fully informed about their child's treatment.",
+    "rating": 5,
+    "specialty": "Medical"
+  },
+  {
+    "name": "James Parker",
+    "role": "Community Outreach Coordinator",
+    "organization": "United Way",
+    "content": "Community engagement requires meeting people where they are, in their own language. Interproz interpreters help us connect with diverse communities and ensure our programs are truly accessible to everyone.",
+    "rating": 4,
+    "specialty": "Human Services"
+  },
+  {
+    "name": "Dr. Patricia Kim",
+    "role": "University Dean",
+    "organization": "State University",
+    "content": "International students are a vital part of our academic community. Interproz interpretation services help us support Korean and Chinese students during orientation, advising sessions, and important academic meetings.",
+    "rating": 5,
+    "specialty": "Academic"
+  },
+  {
+    "name": "Thomas Anderson",
+    "role": "Branch Manager",
+    "organization": "First National Bank",
+    "content": "Financial decisions are too important to be lost in translation. Our partnership with Interproz ensures that all clients can fully understand loan terms, investment options, and banking services in their preferred language.",
+    "rating": 4,
+    "specialty": "Financial"
+  }
+]

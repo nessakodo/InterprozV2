@@ -1,0 +1,126 @@
+// 🤖 AI INTERPRETER AVATAR - Enhanced Feature Spec
+// Integrates perfectly with Interproz 2.0's existing architecture
+
+/**
+ * 🎯 FEATURE POSITIONING
+ * - Complement human interpreters, not replace them
+ * - "Try AI interpretation" with clear disclaimers
+ * - Upsell to human interpreter for complex/certified needs
+ */
+
+// 📁 NEW FILES TO ADD
+{
+  "client/src/pages/": [
+    "Avatar.jsx"              // Main avatar interface
+  ],
+  "client/src/components/avatar/": [
+    "AvatarChat.jsx",         // Chat-style conversation UI
+    "WaveformVisualizer.jsx", // Real-time audio visualization
+    "LanguageSelector.jsx",   // Source/target language picker
+    "SubtitleDisplay.jsx",    // Live transcription display
+    "AvatarFrame.jsx"         // HeyGen iframe wrapper
+  ],
+  "client/src/hooks/": [
+    "useAudioRecording.js",   // Microphone capture logic
+    "useWebSocket.js"         // Real-time communication
+  ],
+  "server/routes/": [
+    "avatar.js"               // All avatar-related endpoints
+  ],
+  "server/services/": [
+    "whisperService.js",      // Speech-to-text
+    "translationService.js",  // DeepL/GPT-4 translation
+    "elevenLabsService.js",   // Text-to-speech
+    "avatarService.js"        // Avatar orchestration
+  ]
+}
+
+// 🔌 API ENDPOINTS
+/*
+POST /api/avatar/interpret
+- Input: { audioBlob, sourceLang, targetLang, userId }
+- Process: transcribe → translate → speak → return audio
+- Output: { transcription, translation, audioUrl, confidence }
+
+POST /api/avatar/start-session
+- Creates avatar session, returns sessionId
+- Links to user's job history
+
+GET /api/avatar/languages
+- Returns supported language pairs
+- Filters based on user's subscription tier
+*/
+
+// 🎨 UI/UX ENHANCEMENTS
+const uiFeatures = {
+  layout: "Split-screen: avatar on left, chat on right",
+  animations: {
+    speaking: "Subtle mouth movement sync",
+    listening: "Pulsing blue glow around avatar",
+    processing: "Loading spinner with 'translating...' text"
+  },
+  accessibility: {
+    subtitles: "Always visible, size adjustable",
+    voiceSpeed: "Playback speed control",
+    pauseResume: "Space bar to pause/resume"
+  },
+  professionalTouch: {
+    disclaimer: "AI interpretation - for certified needs, book human interpreter",
+    qualityFeedback: "Rate this interpretation (improve AI)",
+    upgradePrompt: "Need certified interpretation? Book human interpreter"
+  }
+}
+
+// 🔐 SECURITY & COMPLIANCE
+const securityMeasures = {
+  auth: "Supabase JWT verification on all routes",
+  rateLimit: "Max 10 interpretations per hour for free tier",
+  audioStorage: "Temporary only - delete after processing",
+  logging: "Track usage for billing/analytics but no content storage",
+  disclaimer: "Clear 'AI-powered, not certified' warnings"
+}
+
+// 💰 BUSINESS LOGIC INTEGRATION
+const businessIntegration = {
+  freeTier: "5 AI interpretations per month",
+  premiumTier: "Unlimited AI + priority human booking",
+  enterpriseTier: "Custom avatar training + whitelabel",
+  analytics: "Track AI vs human preference patterns",
+  leadGeneration: "Capture leads who need certified interpretation"
+}
+
+// 🚀 IMPLEMENTATION PHASES
+const phases = {
+  phase1: "Basic voice-to-voice translation (no avatar visual)",
+  phase2: "Add waveform visualization + subtitles",
+  phase3: "Integrate HeyGen avatar rendering",
+  phase4: "Multi-language support + voice cloning",
+  phase5: "Custom avatar training for enterprise clients"
+}
+
+// 🔧 REPLIT-SPECIFIC OPTIMIZATIONS
+const replitOptimizations = {
+  audioHandling: "Use Web Audio API (no file system needed)",
+  apiCalls: "Async/await with proper error handling",
+  memoryManagement: "Clear audio blobs after processing",
+  environmentVars: "Store API keys in Replit Secrets",
+  deployment: "Single-command deploy with Replit hosting"
+}
+
+// 📊 SUCCESS METRICS
+const metrics = {
+  engagement: "Time spent in avatar vs booking human interpreter",
+  conversion: "AI users who upgrade to human interpreter bookings",
+  satisfaction: "Avatar interpretation quality ratings",
+  retention: "Users who return to use avatar feature",
+  revenue: "Premium subscriptions driven by avatar feature"
+}
+
+// 🎯 INTEGRATION WITH EXISTING INTERPROZ FEATURES
+const integrations = {
+  userDashboard: "Add 'AI Interpreter' tile to main dashboard",
+  jobHistory: "Track AI sessions alongside human interpreter jobs",
+  billing: "Count AI usage toward subscription limits",
+  notifications: "Suggest human interpreter for complex topics",
+  analytics: "Admin panel shows AI vs human usage patterns"
+}
