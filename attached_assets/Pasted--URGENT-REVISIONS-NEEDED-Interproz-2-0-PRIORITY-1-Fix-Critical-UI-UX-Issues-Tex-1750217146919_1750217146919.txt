@@ -1,0 +1,163 @@
+# 🔧 URGENT REVISIONS NEEDED - Interproz 2.0
+
+## 🎯 PRIORITY 1: Fix Critical UI/UX Issues
+
+### **Text Readability Crisis**
+- **PROBLEM**: Hero text and interface elements are completely invisible/unreadable
+- **SOLUTION**: Implement proper contrast ratios immediately
+- **SPECIFIC CHANGES**:
+  - Hero text: Change to `#0F172A` (dark slate) with `font-weight: 600`
+  - All body text: Use `#374151` (dark gray) minimum
+  - Ensure 4.5:1 contrast ratio against all backgrounds
+  - Test readability on both light and dark themes
+
+### **Logo & Navigation Issues**
+- **PROBLEM**: Logo is too small and hard to see
+- **SOLUTION**: Increase logo size by 40-50%
+- **SPECS**: Logo should be `height: 48px` minimum in navbar
+- Make logo clickable (links to home page)
+
+### **Card & Button Visibility**
+- **Quick Actions cards**: White background with `box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)`
+- **Buttons**: `#2A64B2` background with white text and proper hover states
+- **Text hierarchy**: Clear distinction between headings and body text
+
+---
+
+## 🔐 PRIORITY 2: Authentication System Overhaul
+
+### **Switch to Supabase Auth (Critical)**
+```javascript
+// Replace current Replit auth with:
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)
+```
+
+### **Multi-Role Sign-Up Form**
+```javascript
+// Required form fields:
+const signUpForm = {
+  name: "string (required)",
+  email: "string (required)",
+  password: "string (required)",
+  role: "radio buttons: Client | Interpreter (required)",
+  phone: "string (optional)",
+  // Conditional fields (show only if role === 'interpreter'):
+  languages: "multi-select dropdown",
+  specialties: "checkbox group (Legal, Medical, etc.)",
+  certifications: "text area (optional)"
+}
+```
+
+### **Role-Based Routing**
+```javascript
+// After successful login, redirect based on role:
+const redirectMap = {
+  'client': '/dashboard/client',
+  'interpreter': '/dashboard/interpreter', 
+  'admin': '/dashboard/admin'
+}
+```
+
+---
+
+## 🤖 PRIORITY 3: Add AI Avatar Feature
+
+### **New Routes to Create**
+- **Frontend**: `/avatar` - Chat-style interface with microphone
+- **Backend**: `/api/interpret` - Audio processing pipeline
+
+### **Required Dependencies**
+```bash
+npm install @whisper/web axios elevenlabs-js @supabase/supabase-js
+```
+
+### **AI Avatar Features**
+1. **Microphone Capture**: Web Audio API with permission handling
+2. **Speech-to-Text**: Whisper API integration
+3. **Translation**: DeepL API (fallback to GPT-4)
+4. **Text-to-Speech**: ElevenLabs API with voice selection
+5. **Visual Avatar**: HeyGen iframe (optional Phase 2)
+
+### **UI Specifications**
+- **Theme**: Cyber-modern with blue-white (#2A64B2, #EAF2FB)
+- **Layout**: Split screen - avatar left, chat right
+- **Animations**: 
+  - Waveform visualization during recording
+  - Pulsing blue glow when AI is "thinking"
+  - Real-time subtitle display
+- **Controls**: Record button, language selector, volume slider
+
+---
+
+## 📱 PRIORITY 4: Overall UX Improvements
+
+### **Mobile Responsiveness**
+- Test all text readability on mobile devices
+- Ensure touch targets are minimum 44px
+- Optimize card layouts for small screens
+
+### **Loading States**
+- Add proper loading spinners for all async operations
+- Show progress indicators for file uploads
+- Implement skeleton screens for dashboard loading
+
+### **Error Handling**
+- User-friendly error messages
+- Fallback UI for failed API calls
+- Clear validation messages on forms
+
+---
+
+## 🎨 EXACT COLOR SPECIFICATIONS
+
+```css
+/* Primary Colors */
+--primary-blue: #2A64B2;
+--background-light: #EAF2FB;
+--text-primary: #0F172A;
+--text-secondary: #374151;
+--white: #FFFFFF;
+
+/* Usage */
+.hero-text { color: var(--text-primary); font-weight: 600; }
+.body-text { color: var(--text-secondary); }
+.cards { background: var(--white); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+.buttons { background: var(--primary-blue); color: var(--white); }
+```
+
+---
+
+## ✅ TESTING CHECKLIST
+
+Before marking complete, verify:
+- [ ] All text is clearly readable
+- [ ] Logo is properly sized and clickable
+- [ ] Sign-up form has role selection
+- [ ] Users can register as Client or Interpreter
+- [ ] Dashboard routing works based on role
+- [ ] AI Avatar page loads with microphone access
+- [ ] Supabase authentication is working
+- [ ] Mobile layout is responsive
+- [ ] All buttons have proper hover states
+
+---
+
+## 🚀 IMPLEMENTATION ORDER
+
+1. **Fix text visibility** (5 minutes - critical)
+2. **Increase logo size** (2 minutes)
+3. **Implement Supabase auth** (15 minutes)
+4. **Add role-based signup** (10 minutes)
+5. **Create AI Avatar foundation** (30 minutes)
+6. **Polish and test** (10 minutes)
+
+**Total estimated time: ~1 hour for complete overhaul**
+
+---
+
+*Please implement these changes in the order listed above. The text readability issue is blocking user testing, so that needs to be fixed first. Once users can actually see and read the interface, we can proceed with the authentication and AI features.*
