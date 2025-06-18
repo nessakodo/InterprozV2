@@ -49,10 +49,10 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div className="space-y-8" {...fadeInUp}>
-              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-4xl lg:text-6xl font-bold hero-text leading-tight">
                 Professional <span className="text-interproz-blue">Interpretation</span> Services
               </h1>
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <p className="text-xl body-text leading-relaxed">
                 Connect with certified interpreters for medical, legal, business, and specialized interpretation needs. Available 24/7 for on-site, phone, and video remote interpretation.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">

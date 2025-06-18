@@ -39,9 +39,9 @@ export default function Navbar() {
           <div className="flex items-center space-x-4">
             <Link href="/">
               <div className="flex items-center space-x-2 cursor-pointer">
-                <svg width="150" height="40" viewBox="0 0 150 40" fill="none">
-                  <text x="0" y="28" fontFamily="Inter, sans-serif" fontSize="20" fontWeight="700" fill="#2A64B2">interproz</text>
-                  <text x="0" y="38" fontFamily="Inter, sans-serif" fontSize="10" fontStyle="italic" fill="#334155">Interpreting Professionals</text>
+                <svg width="200" height="48" viewBox="0 0 200 48" fill="none">
+                  <text x="0" y="32" fontFamily="Inter, sans-serif" fontSize="24" fontWeight="700" fill="#2A64B2">interproz</text>
+                  <text x="0" y="44" fontFamily="Inter, sans-serif" fontSize="12" fontStyle="italic" fill="#0F172A">Interpreting Professionals</text>
                 </svg>
               </div>
             </Link>

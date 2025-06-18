@@ -130,7 +130,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h2>
+          <h2 className="text-2xl font-bold hero-text mb-6">Quick Actions</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {currentActions.map((action, index) => (
               <motion.div
@@ -138,13 +138,13 @@ export default function Home() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow card-enhanced">
                   <CardContent className="p-6">
                     <div className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center mb-4`}>
                       <action.icon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="font-semibold text-gray-900 mb-2">{action.title}</h3>
-                    <p className="text-sm text-gray-600">{action.description}</p>
+                    <h3 className="font-semibold text-primary mb-2">{action.title}</h3>
+                    <p className="text-sm body-text">{action.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>

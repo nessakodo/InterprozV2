@@ -24,10 +24,13 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
-  /* Interproz brand colors */
-  --interproz-blue: hsl(207, 57%, 53%);
-  --interproz-light: hsl(213, 62%, 95%);
-  --interproz-dark: hsl(207, 57%, 43%);
+  /* Interproz brand colors - FIXED FOR READABILITY */
+  --interproz-blue: #2A64B2;
+  --interproz-light: #EAF2FB;
+  --interproz-dark: #1E4A8C;
+  --text-primary: #0F172A;
+  --text-secondary: #374151;
+  --text-light: #6B7280;
 }
 
 .dark {
@@ -69,6 +72,46 @@
 }
 
 @layer utilities {
+  /* Text readability utilities - CRITICAL FIX */
+  .text-primary {
+    color: var(--text-primary) !important;
+  }
+  
+  .text-secondary {
+    color: var(--text-secondary) !important;
+  }
+  
+  .text-light {
+    color: var(--text-light) !important;
+  }
+  
+  .hero-text {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+  }
+  
+  .body-text {
+    color: var(--text-secondary) !important;
+  }
+  
+  /* Card improvements for visibility */
+  .card-enhanced {
+    background: white !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  }
+  
+  /* Button improvements */
+  .button-primary {
+    background-color: var(--interproz-blue) !important;
+    color: white !important;
+  }
+  
+  .button-primary:hover {
+    background-color: var(--interproz-dark) !important;
+  }
+  
+  /* Interproz brand utilities */
   .text-interproz-blue {
     color: var(--interproz-blue);
   }
