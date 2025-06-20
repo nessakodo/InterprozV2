@@ -444,6 +444,104 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // AI Interpreter Avatar endpoint
+  app.post("/api/interpret", isAuthenticated, async (req: any, res) => {
+    try {
+      const multer = (await import('multer')).default;
+      const upload = multer({ 
+        storage: multer.memoryStorage(),
+        limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+      });
+
+      // Handle file upload
+      upload.single('audio')(req, res, async (err) => {
+        if (err) {
+          return res.status(400).json({ message: "File upload error" });
+        }
+
+        if (!req.file) {
+          return res.status(400).json({ message: "No audio file provided" });
+        }
+
+        const { sourceLanguage, targetLanguage } = req.body;
+
+        try {
+          // Import OpenAI dynamically
+          const OpenAI = (await import('openai')).default;
+          const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+          // Convert audio buffer to file for Whisper
+          const audioFile = new File([req.file.buffer], 'audio.webm', { 
+            type: req.file.mimetype 
+          });
+
+          // Transcribe with Whisper
+          const transcription = await openai.audio.transcriptions.create({
+            file: audioFile,
+            model: "whisper-1",
+            language: sourceLanguage === 'auto' ? undefined : sourceLanguage,
+          });
+
+          const originalText = transcription.text;
+
+          // Translate with GPT-4o
+          const translation = await openai.chat.completions.create({
+            model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+            messages: [
+              {
+                role: "system",
+                content: `You are a professional interpreter. Translate the following text from ${sourceLanguage} to ${targetLanguage}. Maintain the tone, context, and meaning. Provide only the translation without any additional commentary.`
+              },
+              {
+                role: "user",
+                content: originalText
+              }
+            ],
+            temperature: 0.3,
+          });
+
+          const translatedText = translation.choices[0].message.content || "";
+
+          // Generate speech with ElevenLabs
+          const { ElevenLabs } = await import('elevenlabs');
+          const client = new ElevenLabs({
+            apiKey: process.env.ELEVENLABS_API_KEY
+          });
+          
+          // Use a professional voice for interpretation
+          const audioResponse = await client.generate({
+            voice: "21m00Tcm4TlvDq8ikWAM", // Rachel - Professional female voice
+            text: translatedText,
+            model_id: "eleven_multilingual_v2"
+          });
+
+          // Convert audio stream to base64
+          const audioBuffer = Buffer.from(await audioResponse.arrayBuffer());
+          const audioBase64 = `data:audio/mpeg;base64,${audioBuffer.toString('base64')}`;
+
+          res.json({
+            originalText,
+            translatedText,
+            audioUrl: audioBase64,
+            sourceLanguage,
+            targetLanguage
+          });
+
+        } catch (apiError: any) {
+          console.error('API Error:', apiError);
+          res.status(500).json({ 
+            message: "Translation service error", 
+            details: apiError.message 
+          });
+        }
+      });
+
+    } catch (error: any) {
+      console.error('Interpret endpoint error:', error);
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   // Analytics routes (Admin only)
   app.get("/api/analytics/jobs", isAuthenticated, async (req: any, res) => {
     try {

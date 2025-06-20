@@ -15,6 +15,7 @@ import Contact from "@/pages/contact";
 import ClientDashboard from "@/pages/dashboard/client";
 import InterpreterDashboard from "@/pages/dashboard/interpreter";
 import AdminDashboard from "@/pages/dashboard/admin";
+import Avatar from "@/pages/avatar";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -38,6 +39,7 @@ function Router() {
           <Route path="/specialties" component={Specialties} />
           <Route path="/clients" component={Clients} />
           <Route path="/contact" component={Contact} />
+          <Route path="/avatar" component={Avatar} />
           <Route path="/dashboard/client" component={ClientDashboard} />
           <Route path="/dashboard/interpreter" component={InterpreterDashboard} />
           <Route path="/dashboard/admin" component={AdminDashboard} />
