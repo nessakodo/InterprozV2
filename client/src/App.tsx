@@ -19,28 +19,24 @@ import Avatar from "@/pages/avatar";
 import Auth from "@/pages/auth";
 
 function Router() {
-  try {
-    const { isAuthenticated, isLoading } = useAuth();
-  } catch (error) {
-    // Auth provider not ready, show landing page
-    return (
-      <Switch>
-        <Route path="/" component={Landing} />
-        <Route path="/about" component={About} />
-        <Route path="/services" component={Services} />
-        <Route path="/specialties" component={Specialties} />
-        <Route path="/clients" component={Clients} />
-        <Route path="/contact" component={Contact} />
-        <Route path="/auth" component={Auth} />
-        <Route component={NotFound} />
-      </Switch>
-    );
-  }
+  let isAuthenticated = false;
+  let isLoading = true;
   
-  const { isAuthenticated, isLoading } = useAuth();
+  try {
+    const auth = useAuth();
+    isAuthenticated = auth.isAuthenticated;
+    isLoading = auth.isLoading;
+  } catch (error) {
+    // Auth provider not ready, set defaults
+    isAuthenticated = false;
+    isLoading = false;
+  }
 
   return (
     <Switch>
+      {/* Always available routes */}
+      <Route path="/auth" component={Auth} />
+      
       {isLoading || !isAuthenticated ? (
         <>
           <Route path="/" component={Landing} />
@@ -49,7 +45,6 @@ function Router() {
           <Route path="/specialties" component={Specialties} />
           <Route path="/clients" component={Clients} />
           <Route path="/contact" component={Contact} />
-          <Route path="/auth" component={Auth} />
         </>
       ) : (
         <>
