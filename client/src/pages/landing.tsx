@@ -22,7 +22,9 @@ import {
   Brain,
   Languages,
   ShieldCheck,
-  Check
+  Check,
+  Bot,
+  Mic
 } from "lucide-react";
 
 export default function Landing() {
@@ -109,6 +111,123 @@ export default function Landing() {
                   <span className="text-sm font-medium text-gray-700">200+ Active Interpreters</span>
                 </div>
               </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Avatar Feature Section */}
+      <section className="py-20 bg-gradient-to-br from-interproz-light via-blue-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center space-y-6 mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-center justify-center space-x-3 mb-4">
+              <div className="p-3 bg-gradient-to-r from-interproz-blue to-interproz-dark rounded-xl">
+                <Brain className="w-8 h-8 text-white" />
+              </div>
+              <h2 className="text-4xl font-bold hero-text">AI Interpreter Avatar</h2>
+            </div>
+            <p className="text-xl body-text max-w-4xl mx-auto">
+              Experience the future of interpretation with our cutting-edge AI Avatar. 
+              Real-time transcription, translation, and natural voice synthesis in 200+ languages.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              className="space-y-6"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-interproz-blue rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-lg font-semibold text-interproz-dark">Instant voice-to-voice interpretation</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-interproz-blue rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-lg font-semibold text-interproz-dark">Professional AI voice synthesis</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-interproz-blue rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-lg font-semibold text-interproz-dark">Real-time conversation transcripts</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-interproz-blue rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-lg font-semibold text-interproz-dark">Available 24/7 for immediate access</span>
+                </div>
+              </div>
+              
+              <div className="pt-6">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-interproz-blue to-interproz-dark hover:from-interproz-dark hover:to-blue-800 text-white text-lg px-8 py-4 shadow-lg"
+                  onClick={() => window.location.href = "/api/login"}
+                >
+                  <Brain className="w-5 h-5 mr-2" />
+                  Try AI Avatar Demo
+                </Button>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-r from-interproz-blue to-interproz-dark rounded-full flex items-center justify-center">
+                      <Bot className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-interproz-dark">AI Interpreter</h3>
+                      <p className="text-sm text-gray-500">Ready to translate</p>
+                    </div>
+                  </div>
+                  <div className="flex space-x-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm text-green-600 font-medium">Online</span>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Mic className="w-4 h-4 text-interproz-blue" />
+                      <span className="text-sm font-medium text-gray-700">Voice Input</span>
+                    </div>
+                    <div className="h-8 bg-gradient-to-r from-interproz-blue via-blue-400 to-interproz-blue opacity-60 rounded animate-pulse"></div>
+                  </div>
+                  
+                  <div className="bg-interproz-light rounded-lg p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Languages className="w-4 h-4 text-interproz-dark" />
+                      <span className="text-sm font-medium text-interproz-dark">Translation Output</span>
+                    </div>
+                    <p className="text-interproz-dark font-medium">"Hello, how can I help you today?"</p>
+                    <p className="text-sm text-gray-600 mt-1">English → Spanish</p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
