@@ -75,6 +75,7 @@ export function setupAuth(app: Express) {
     try {
       // Admin user
       await storage.createUser({
+        id: 1,
         username: "admin",
         email: "admin@interproz.com",
         password: await hashPassword("admin123"),
@@ -85,6 +86,7 @@ export function setupAuth(app: Express) {
 
       // Client user
       await storage.createUser({
+        id: 2,
         username: "client",
         email: "client@interproz.com",
         password: await hashPassword("client123"),
@@ -95,6 +97,7 @@ export function setupAuth(app: Express) {
 
       // Interpreter user
       await storage.createUser({
+        id: 3,
         username: "interpreter",
         email: "interpreter@interproz.com",
         password: await hashPassword("interpreter123"),
