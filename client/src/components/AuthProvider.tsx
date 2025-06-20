@@ -22,7 +22,11 @@ type LoginData = Pick<InsertUser, "username" | "password">;
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-export function AuthProvider({ children }: { children: ReactNode }): React.ReactElement {
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export function AuthProvider({ children }: AuthProviderProps): React.ReactElement {
   const { toast } = useToast();
   const {
     data: user,
@@ -98,7 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }): React.React
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
 export function useAuth() {
   const context = useContext(AuthContext);
