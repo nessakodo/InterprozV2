@@ -18,6 +18,7 @@ export default function Navbar() {
     { name: "Services", href: "/services" },
     { name: "Specialties", href: "/specialties" },
     { name: "Clients", href: "/clients" },
+    ...(isAuthenticated ? [{ name: "AI Avatar", href: "/avatar" }] : []),
     { name: "Contact", href: "/contact" },
   ];
 

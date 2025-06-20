@@ -115,9 +115,9 @@ export default function WaveformVisualizer({ isRecording }: WaveformVisualizerPr
 
   return (
     <motion.div 
-      className="w-full h-24 bg-gray-50 rounded-lg border-2 border-gray-200 overflow-hidden"
+      className="relative w-full h-24 bg-gradient-to-r from-interproz-light to-white rounded-lg border-2 border-gray-200 overflow-hidden"
       animate={{ 
-        borderColor: isRecording ? '#2A64B2' : '#e5e7eb',
+        borderColor: isRecording ? 'var(--interproz-blue)' : '#e5e7eb',
         boxShadow: isRecording ? '0 0 20px rgba(42, 100, 178, 0.3)' : 'none'
       }}
       transition={{ duration: 0.3 }}
@@ -146,6 +146,13 @@ export default function WaveformVisualizer({ isRecording }: WaveformVisualizerPr
             ease: "easeInOut"
           }}
         />
+      </div>
+      
+      {/* Audio level text */}
+      <div className="absolute bottom-2 left-2">
+        <span className="text-xs text-interproz-dark font-medium">
+          {isRecording ? 'Recording...' : 'Ready'}
+        </span>
       </div>
     </motion.div>
   );
