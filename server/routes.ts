@@ -7,38 +7,20 @@ import { insertJobSchema, insertMessageSchema, insertRatingSchema } from "@share
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Traditional auth middleware
+  // Traditional auth middleware - sets up /api/register, /api/login, /api/logout, /api/user
   setupAuth(app);
 
   // Create test users endpoint
-  app.post("/api/init", async (req, res) => {
+  app.post("/api/create-test-users", async (req, res) => {
     try {
-      // Create test users for demo
-      await fetch(`http://localhost:5000/api/create-test-users`, { method: 'POST' });
-      res.json({ message: "System initialized with test users" });
-    } catch (error) {
-      res.json({ message: "Test users already exist or created" });
-    }
-  });
-
-  // Auth routes
-  app.get('/api/auth/user', async (req: any, res) => {
-    try {
-      if (!req.isAuthenticated()) {
-        return res.status(401).json({ message: "Unauthorized" });
+      await storage.createTestUsers();
+      res.json({ message: "Test users created successfully" });
+    } catch (error: any) {
+      if (error.message.includes("duplicate key")) {
+        res.status(200).json({ message: "Test users already exist" });
+      } else {
+        res.status(500).json({ message: error.message });
       }
-      const userId = req.user?.claims?.sub;
-      if (!userId) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-      const user = await storage.getUser(userId);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
     }
   });
 

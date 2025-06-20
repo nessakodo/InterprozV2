@@ -32,6 +32,7 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, updates: Partial<InsertUser>): Promise<User>;
+  createTestUsers(): Promise<void>;
   
   // Job operations
   createJob(job: InsertJob): Promise<Job>;
@@ -101,6 +102,61 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, id))
       .returning();
     return user;
+  }
+
+  async createTestUsers(): Promise<void> {
+    const { scrypt, randomBytes } = await import("crypto");
+    const { promisify } = await import("util");
+    const scryptAsync = promisify(scrypt);
+
+    async function hashPassword(password: string) {
+      const salt = randomBytes(16).toString("hex");
+      const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+      return `${buf.toString("hex")}.${salt}`;
+    }
+
+    try {
+      // Admin user
+      await this.createUser({
+        id: 1,
+        username: "admin",
+        email: "admin@interproz.com",
+        password: await hashPassword("admin123"),
+        firstName: "Admin",
+        lastName: "User",
+        role: "admin",
+      });
+
+      // Client user
+      await this.createUser({
+        id: 2,
+        username: "client",
+        email: "client@interproz.com",
+        password: await hashPassword("client123"),
+        firstName: "Test",
+        lastName: "Client",
+        role: "client",
+      });
+
+      // Interpreter user
+      await this.createUser({
+        id: 3,
+        username: "interpreter",
+        email: "interpreter@interproz.com",
+        password: await hashPassword("interpreter123"),
+        firstName: "Test",
+        lastName: "Interpreter",
+        role: "interpreter",
+        languages: ["Spanish", "English"],
+        specialties: ["Medical", "Legal"],
+        isVerified: true,
+        hourlyRate: "85.00",
+      });
+    } catch (error: any) {
+      if (!error.message.includes("duplicate key")) {
+        throw error;
+      }
+    }
   }
 
   // Job operations
