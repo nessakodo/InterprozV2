@@ -34,18 +34,35 @@ export const documentStatusEnum = pgEnum("document_status", ["uploaded", "ai_tra
 
 // Users table (required for Replit Auth)
 export const users = pgTable("users", {
-  id: varchar("id").primaryKey().notNull(),
-  email: varchar("email").unique(),
-  firstName: varchar("first_name"),
-  lastName: varchar("last_name"),
-  profileImageUrl: varchar("profile_image_url"),
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 50 }).unique().notNull(),
+  email: varchar("email", { length: 255 }).unique().notNull(),
+  password: varchar("password", { length: 255 }).notNull(),
+  firstName: varchar("first_name", { length: 100 }),
+  lastName: varchar("last_name", { length: 100 }),
   role: userRoleEnum("role").notNull().default("client"),
+  profileImageUrl: varchar("profile_image_url"),
+  phone: varchar("phone", { length: 20 }),
+  
+  // Interpreter-specific fields
   languages: text("languages").array(),
   specialties: text("specialties").array(),
-  rating: decimal("rating", { precision: 3, scale: 2 }),
+  certifications: jsonb("certifications"),
+  hourlyRate: decimal("hourly_rate", { precision: 10, scale: 2 }),
   isActive: boolean("is_active").default(true),
-  stripeCustomerId: varchar("stripe_customer_id"),
-  stripeSubscriptionId: varchar("stripe_subscription_id"),
+  isVerified: boolean("is_verified").default(false),
+  rating: decimal("rating", { precision: 3, scale: 2 }),
+  totalJobs: integer("total_jobs").default(0),
+  
+  // Business fields
+  commissionRate: decimal("commission_rate", { precision: 5, scale: 4 }).default("0.20"),
+  payoutMethod: varchar("payout_method", { length: 50 }).default("bank_transfer"),
+  taxId: varchar("tax_id", { length: 50 }),
+  
+  // Client preferences
+  preferredLanguages: text("preferred_languages").array(),
+  billingAddress: jsonb("billing_address"),
+  
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -254,7 +271,7 @@ export const insertSpecialtySchema = createInsertSchema(specialties).omit({
 });
 
 // Types
-export type UpsertUser = z.infer<typeof insertUserSchema>;
+export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertJob = z.infer<typeof insertJobSchema>;
 export type Job = typeof jobs.$inferSelect;
