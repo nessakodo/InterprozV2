@@ -7,8 +7,19 @@ import { insertJobSchema, insertMessageSchema, insertRatingSchema } from "@share
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware
-  await setupAuth(app);
+  // Traditional auth middleware
+  setupAuth(app);
+
+  // Create test users endpoint
+  app.post("/api/init", async (req, res) => {
+    try {
+      // Create test users for demo
+      await fetch(`http://localhost:5000/api/create-test-users`, { method: 'POST' });
+      res.json({ message: "System initialized with test users" });
+    } catch (error) {
+      res.json({ message: "Test users already exist or created" });
+    }
+  });
 
   // Auth routes
   app.get('/api/auth/user', async (req: any, res) => {
