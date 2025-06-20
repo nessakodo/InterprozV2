@@ -26,7 +26,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export function AuthProvider({ children }: AuthProviderProps): React.ReactElement {
+export function AuthProvider(props: AuthProviderProps) {
   const { toast } = useToast();
   const {
     data: user,
@@ -87,22 +87,22 @@ export function AuthProvider({ children }: AuthProviderProps): React.ReactElemen
     },
   });
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user: user ?? null,
-        isLoading,
-        isAuthenticated: !!user,
-        error,
-        loginMutation,
-        logoutMutation,
-        registerMutation,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const contextValue: AuthContextType = {
+    user: user ?? null,
+    isLoading,
+    isAuthenticated: !!user,
+    error,
+    loginMutation,
+    logoutMutation,
+    registerMutation,
+  };
+
+  return React.createElement(
+    AuthContext.Provider,
+    { value: contextValue },
+    props.children
   );
-};
+}
 
 export function useAuth() {
   const context = useContext(AuthContext);
