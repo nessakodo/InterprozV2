@@ -77,7 +77,7 @@ export function setupAuth(app: Express) {
       await storage.createUser({
         id: 1,
         username: "admin",
-        email: "admin@interproz.com",
+        email: "admin@example.com",
         password: await hashPassword("admin123"),
         firstName: "Admin",
         lastName: "User",
@@ -88,7 +88,7 @@ export function setupAuth(app: Express) {
       await storage.createUser({
         id: 2,
         username: "client",
-        email: "client@interproz.com",
+        email: "client@example.com",
         password: await hashPassword("client123"),
         firstName: "Test",
         lastName: "Client",
@@ -99,7 +99,7 @@ export function setupAuth(app: Express) {
       await storage.createUser({
         id: 3,
         username: "interpreter",
-        email: "interpreter@interproz.com",
+        email: "interpreter@example.com",
         password: await hashPassword("interpreter123"),
         firstName: "Test",
         lastName: "Interpreter",

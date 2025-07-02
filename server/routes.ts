@@ -2,13 +2,13 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./auth";
+import { setupAuthDev, isAuthenticatedDev } from "./auth-dev";
 import { insertJobSchema, insertMessageSchema, insertRatingSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Traditional auth middleware - sets up /api/register, /api/login, /api/logout, /api/user
-  setupAuth(app);
+  setupAuthDev(app);
 
   // Create test users endpoint
   app.post("/api/create-test-users", async (req, res) => {
@@ -25,7 +25,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Admin Dashboard APIs
-  app.get('/api/admin/stats', isAuthenticated, async (req: any, res) => {
+  app.get('/api/admin/stats', isAuthenticatedDev, async (req: any, res) => {
     try {
       const stats = await storage.getJobStats();
       const userStats = await storage.getUserStats();
@@ -46,7 +46,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/admin/users', isAuthenticated, async (req: any, res) => {
+  app.get('/api/admin/users', isAuthenticatedDev, async (req: any, res) => {
     try {
       // For demo purposes, return sample users - in production, fetch from database
       const users = [
@@ -74,7 +74,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/admin/jobs', isAuthenticated, async (req: any, res) => {
+  app.get('/api/admin/jobs', isAuthenticatedDev, async (req: any, res) => {
     try {
       const jobs = await storage.getAvailableJobs();
       res.json(jobs);
@@ -84,7 +84,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/admin/interpreters', isAuthenticated, async (req: any, res) => {
+  app.get('/api/admin/interpreters', isAuthenticatedDev, async (req: any, res) => {
     try {
       // Return sample interpreters for demo
       const interpreters = [
@@ -107,9 +107,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Client Dashboard APIs
-  app.get('/api/client/stats', isAuthenticated, async (req: any, res) => {
+  app.get('/api/client/stats', isAuthenticatedDev, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByClient(userId);
       const stats = {
         totalBookings: jobs.length,
@@ -124,9 +124,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/client/jobs', isAuthenticated, async (req: any, res) => {
+  app.get('/api/client/jobs', isAuthenticatedDev, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByClient(userId);
       res.json(jobs);
     } catch (error) {
@@ -135,9 +135,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/client/jobs/upcoming', isAuthenticated, async (req: any, res) => {
+  app.get('/api/client/jobs/upcoming', isAuthenticatedDev, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByClient(userId);
       const upcomingJobs = jobs.filter(job => 
         job.status === 'confirmed' && new Date(job.startTime) > new Date()
@@ -149,7 +149,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/client/invoices', isAuthenticated, async (req: any, res) => {
+  app.get('/api/client/invoices', isAuthenticatedDev, async (req: any, res) => {
     try {
       // Return sample invoices for demo
       const invoices = [
@@ -169,9 +169,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Interpreter Dashboard APIs
-  app.get('/api/interpreter/stats', isAuthenticated, async (req: any, res) => {
+  app.get('/api/interpreter/stats', isAuthenticatedDev, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByInterpreter(userId);
       const completedJobs = jobs.filter(job => job.status === 'completed');
       const stats = {
@@ -193,9 +193,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/interpreter/jobs', isAuthenticated, async (req: any, res) => {
+  app.get('/api/interpreter/jobs', isAuthenticatedDev, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByInterpreter(userId);
       res.json(jobs);
     } catch (error) {
@@ -204,7 +204,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/interpreter/jobs/available', isAuthenticated, async (req: any, res) => {
+  app.get('/api/interpreter/jobs/available', isAuthenticatedDev, async (req: any, res) => {
     try {
       const jobs = await storage.getAvailableJobs();
       res.json(jobs);
@@ -214,9 +214,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/interpreter/jobs/upcoming', isAuthenticated, async (req: any, res) => {
+  app.get('/api/interpreter/jobs/upcoming', isAuthenticatedDev, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByInterpreter(userId);
       const upcomingJobs = jobs.filter(job => 
         job.status === 'confirmed' && new Date(job.startTime) > new Date()
@@ -228,7 +228,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/interpreter/earnings', isAuthenticated, async (req: any, res) => {
+  app.get('/api/interpreter/earnings', isAuthenticatedDev, async (req: any, res) => {
     try {
       // Return sample earnings for demo
       const earnings = [
@@ -249,9 +249,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Job Management APIs
-  app.post('/api/jobs', isAuthenticated, async (req: any, res) => {
+  app.post('/api/jobs', isAuthenticatedDev, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobData = {
         ...req.body,
         clientId: userId,
@@ -265,7 +265,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch('/api/jobs/:id', isAuthenticated, async (req: any, res) => {
+  app.patch('/api/jobs/:id', isAuthenticatedDev, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
       const job = await storage.updateJob(jobId, req.body);
@@ -276,10 +276,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/interpreter/jobs/:id/accept', isAuthenticated, async (req: any, res) => {
+  app.post('/api/interpreter/jobs/:id/accept', isAuthenticatedDev, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const job = await storage.assignInterpreter(jobId, userId);
       res.json(job);
     } catch (error) {
@@ -300,9 +300,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Job routes
-  app.post("/api/jobs", isAuthenticated, async (req: any, res) => {
+  app.post("/api/jobs", isAuthenticatedDev, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobData = insertJobSchema.parse({
         ...req.body,
         clientId: userId,
@@ -315,9 +315,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/jobs", isAuthenticated, async (req: any, res) => {
+  app.get("/api/jobs", isAuthenticatedDev, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user) {
@@ -340,7 +340,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/jobs/available", isAuthenticated, async (req: any, res) => {
+  app.get("/api/jobs/available", isAuthenticatedDev, async (req: any, res) => {
     try {
       const jobs = await storage.getAvailableJobs();
       res.json(jobs);
@@ -349,10 +349,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/jobs/:id/claim", isAuthenticated, async (req: any, res) => {
+  app.post("/api/jobs/:id/claim", isAuthenticatedDev, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
-      const interpreterId = req.user.claims.sub;
+      const interpreterId = req.user.id.toString();
       
       const job = await storage.assignInterpreter(jobId, interpreterId);
       res.json(job);
@@ -361,7 +361,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/jobs/:id", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/jobs/:id", isAuthenticatedDev, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
       const updates = req.body;
@@ -374,10 +374,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Message routes
-  app.post("/api/jobs/:id/messages", isAuthenticated, async (req: any, res) => {
+  app.post("/api/jobs/:id/messages", isAuthenticatedDev, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
-      const senderId = req.user.claims.sub;
+      const senderId = req.user.id.toString();
       
       const messageData = insertMessageSchema.parse({
         jobId,
@@ -392,7 +392,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/jobs/:id/messages", isAuthenticated, async (req: any, res) => {
+  app.get("/api/jobs/:id/messages", isAuthenticatedDev, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
       const messages = await storage.getJobMessages(jobId);
@@ -403,10 +403,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Rating routes
-  app.post("/api/jobs/:id/rating", isAuthenticated, async (req: any, res) => {
+  app.post("/api/jobs/:id/rating", isAuthenticatedDev, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       
       const job = await storage.getJob(jobId);
       if (!job) {
@@ -438,7 +438,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // AI Interpreter Avatar endpoint
-  app.post("/api/interpret", isAuthenticated, async (req: any, res) => {
+  app.post("/api/interpret", isAuthenticatedDev, async (req: any, res) => {
     try {
       const multer = (await import('multer')).default;
       const upload = multer({ 
@@ -546,9 +546,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Analytics routes (Admin only)
-  app.get("/api/analytics/jobs", isAuthenticated, async (req: any, res) => {
+  app.get("/api/analytics/jobs", isAuthenticatedDev, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
+      const user = await storage.getUser(req.user.id);
       if (user?.role !== "admin") {
         return res.status(403).json({ message: "Admin access required" });
       }
@@ -560,9 +560,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/analytics/users", isAuthenticated, async (req: any, res) => {
+  app.get("/api/analytics/users", isAuthenticatedDev, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
+      const user = await storage.getUser(req.user.id);
       if (user?.role !== "admin") {
         return res.status(403).json({ message: "Admin access required" });
       }
