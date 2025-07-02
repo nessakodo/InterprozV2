@@ -61,7 +61,7 @@ export default function Landing() {
                 <Button 
                   size="lg" 
                   className="bg-interproz-blue hover:bg-interproz-dark text-white text-lg px-8 py-4"
-                  onClick={() => window.location.href = "/api/login"}
+                  onClick={() => window.location.href = "/auth"}
                 >
                   Book an Interpreter
                 </Button>
@@ -69,7 +69,7 @@ export default function Landing() {
                   variant="outline" 
                   size="lg"
                   className="border-2 border-interproz-blue text-interproz-blue hover:bg-interproz-blue hover:text-white text-lg px-8 py-4"
-                  onClick={() => window.location.href = "/api/login"}
+                  onClick={() => window.location.href = "/auth"}
                 >
                   Join as Interpreter
                 </Button>
@@ -177,7 +177,7 @@ export default function Landing() {
                 <Button 
                   size="lg" 
                   className="bg-gradient-to-r from-interproz-blue to-interproz-dark hover:from-interproz-dark hover:to-blue-800 text-white text-lg px-8 py-4 shadow-lg"
-                  onClick={() => window.location.href = "/api/login"}
+                  onClick={() => window.location.href = "/auth"}
                 >
                   <Brain className="w-5 h-5 mr-2" />
                   Try AI Avatar Demo

@@ -109,7 +109,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Client Dashboard APIs
   app.get('/api/client/stats', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByClient(userId);
       const stats = {
         totalBookings: jobs.length,
@@ -126,7 +126,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/client/jobs', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByClient(userId);
       res.json(jobs);
     } catch (error) {
@@ -137,7 +137,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/client/jobs/upcoming', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByClient(userId);
       const upcomingJobs = jobs.filter(job => 
         job.status === 'confirmed' && new Date(job.startTime) > new Date()
@@ -171,7 +171,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Interpreter Dashboard APIs
   app.get('/api/interpreter/stats', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByInterpreter(userId);
       const completedJobs = jobs.filter(job => job.status === 'completed');
       const stats = {
@@ -195,7 +195,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/interpreter/jobs', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByInterpreter(userId);
       res.json(jobs);
     } catch (error) {
@@ -216,7 +216,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/interpreter/jobs/upcoming', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobs = await storage.getJobsByInterpreter(userId);
       const upcomingJobs = jobs.filter(job => 
         job.status === 'confirmed' && new Date(job.startTime) > new Date()
@@ -251,7 +251,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Job Management APIs
   app.post('/api/jobs', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobData = {
         ...req.body,
         clientId: userId,
@@ -279,7 +279,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/interpreter/jobs/:id/accept', isAuthenticated, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const job = await storage.assignInterpreter(jobId, userId);
       res.json(job);
     } catch (error) {
@@ -302,7 +302,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Job routes
   app.post("/api/jobs", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       const jobData = insertJobSchema.parse({
         ...req.body,
         clientId: userId,
@@ -317,7 +317,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/jobs", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user) {
@@ -352,7 +352,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/jobs/:id/claim", isAuthenticated, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
-      const interpreterId = req.user.claims.sub;
+      const interpreterId = req.user.id.toString();
       
       const job = await storage.assignInterpreter(jobId, interpreterId);
       res.json(job);
@@ -377,7 +377,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/jobs/:id/messages", isAuthenticated, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
-      const senderId = req.user.claims.sub;
+      const senderId = req.user.id.toString();
       
       const messageData = insertMessageSchema.parse({
         jobId,
@@ -406,7 +406,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/jobs/:id/rating", isAuthenticated, async (req: any, res) => {
     try {
       const jobId = parseInt(req.params.id);
-      const userId = req.user.claims.sub;
+      const userId = req.user.id.toString();
       
       const job = await storage.getJob(jobId);
       if (!job) {
@@ -548,7 +548,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Analytics routes (Admin only)
   app.get("/api/analytics/jobs", isAuthenticated, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
+      const user = await storage.getUser(req.user.id);
       if (user?.role !== "admin") {
         return res.status(403).json({ message: "Admin access required" });
       }
@@ -562,7 +562,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/analytics/users", isAuthenticated, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
+      const user = await storage.getUser(req.user.id);
       if (user?.role !== "admin") {
         return res.status(403).json({ message: "Admin access required" });
       }

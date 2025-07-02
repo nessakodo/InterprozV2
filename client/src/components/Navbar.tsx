@@ -9,7 +9,7 @@ import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [location] = useLocation();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, logoutMutation } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const navigation = [
@@ -82,7 +82,7 @@ export default function Navbar() {
                   <Button 
                     variant="ghost" 
                     className="text-gray-700 hover:text-interproz-blue"
-                    onClick={() => window.location.href = "/api/logout"}
+                    onClick={() => logoutMutation.mutate()}
                   >
                     Logout
                   </Button>
@@ -92,13 +92,13 @@ export default function Navbar() {
                   <Button 
                     variant="ghost" 
                     className="text-gray-700 hover:text-interproz-blue"
-                    onClick={() => window.location.href = "/api/login"}
+                    onClick={() => window.location.href = "/auth"}
                   >
                     Login
                   </Button>
                   <Button 
                     className="bg-interproz-blue text-white hover:bg-interproz-dark"
-                    onClick={() => window.location.href = "/api/login"}
+                    onClick={() => window.location.href = "/auth"}
                   >
                     Sign Up
                   </Button>
@@ -146,7 +146,7 @@ export default function Navbar() {
                           className="w-full"
                           onClick={() => {
                             setIsOpen(false);
-                            window.location.href = "/api/logout";
+                            logoutMutation.mutate();
                           }}
                         >
                           Logout
@@ -159,7 +159,7 @@ export default function Navbar() {
                           className="w-full mb-2"
                           onClick={() => {
                             setIsOpen(false);
-                            window.location.href = "/api/login";
+                            window.location.href = "/auth";
                           }}
                         >
                           Login
@@ -168,7 +168,7 @@ export default function Navbar() {
                           className="w-full bg-interproz-blue hover:bg-interproz-dark"
                           onClick={() => {
                             setIsOpen(false);
-                            window.location.href = "/api/login";
+                            window.location.href = "/auth";
                           }}
                         >
                           Sign Up
