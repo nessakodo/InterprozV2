@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import LanguageToggle from "./LanguageToggle";
+import LoginModal from "./LoginModal";
 import { useAuth } from "@/components/AuthProvider";
 import { Menu, X } from "lucide-react";
 
@@ -11,16 +12,42 @@ export default function Navbar() {
   const [location] = useLocation();
   const { isAuthenticated, user, logoutMutation } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const navigation = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Services", href: "/services" },
-    { name: "Specialties", href: "/specialties" },
-    { name: "Clients", href: "/clients" },
-    ...(isAuthenticated ? [{ name: "AI Avatar", href: "/avatar" }] : []),
-    { name: "Contact", href: "/contact" },
-  ];
+  const getNavigation = () => {
+    const baseNav = [
+      { name: "Home", href: "/" },
+      { name: "About", href: "/about" },
+      { name: "Services", href: "/services" },
+      { name: "Specialties", href: "/specialties" },
+      { name: "Clients", href: "/clients" },
+      { name: "Contact", href: "/contact" },
+    ];
+
+    if (!isAuthenticated) return baseNav;
+
+    // Add role-specific navigation for authenticated users
+    const dashboardPath = `/dashboard/${user?.role}`;
+    return [
+      { name: "Home", href: "/" },
+      { name: "Dashboard", href: dashboardPath },
+      ...(user?.role === "admin" ? [
+        { name: "Users", href: `${dashboardPath}/users` },
+        { name: "Analytics", href: `${dashboardPath}/analytics` }
+      ] : []),
+      ...(user?.role === "client" ? [
+        { name: "Book Service", href: `${dashboardPath}/book` },
+        { name: "My Jobs", href: `${dashboardPath}/jobs` }
+      ] : []),
+      ...(user?.role === "interpreter" ? [
+        { name: "Available Jobs", href: `${dashboardPath}/available` },
+        { name: "My Jobs", href: `${dashboardPath}/jobs` }
+      ] : []),
+      { name: "AI Avatar", href: "/avatar" },
+    ];
+  };
+
+  const navigation = getNavigation();
 
   const getDashboardPath = () => {
     if (!user) return "/";
@@ -74,11 +101,19 @@ export default function Navbar() {
             <div className="flex items-center space-x-3">
               {isAuthenticated ? (
                 <>
-                  <Link href={getDashboardPath()}>
-                    <Button variant="ghost" className="text-gray-700 hover:text-interproz-blue">
-                      Dashboard
-                    </Button>
-                  </Link>
+                  <div className="flex items-center space-x-2 text-sm">
+                    <div className="w-8 h-8 bg-interproz-blue rounded-lg flex items-center justify-center">
+                      <span className="text-white font-bold text-xs">
+                        {user?.firstName?.[0] ?? user?.username[0].toUpperCase()}
+                      </span>
+                    </div>
+                    <span className="font-medium text-gray-700">
+                      {user?.firstName ?? user?.username}
+                    </span>
+                    <span className="text-xs text-gray-500 capitalize bg-gray-100 px-2 py-1 rounded">
+                      {user?.role}
+                    </span>
+                  </div>
                   <Button 
                     variant="ghost" 
                     className="text-gray-700 hover:text-interproz-blue"
@@ -92,13 +127,13 @@ export default function Navbar() {
                   <Button 
                     variant="ghost" 
                     className="text-gray-700 hover:text-interproz-blue"
-                    onClick={() => window.location.href = "/auth"}
+                    onClick={() => setShowLoginModal(true)}
                   >
                     Login
                   </Button>
                   <Button 
                     className="bg-interproz-blue text-white hover:bg-interproz-dark"
-                    onClick={() => window.location.href = "/auth"}
+                    onClick={() => setShowLoginModal(true)}
                   >
                     Sign Up
                   </Button>
@@ -159,7 +194,7 @@ export default function Navbar() {
                           className="w-full mb-2"
                           onClick={() => {
                             setIsOpen(false);
-                            window.location.href = "/auth";
+                            setShowLoginModal(true);
                           }}
                         >
                           Login
@@ -168,7 +203,7 @@ export default function Navbar() {
                           className="w-full bg-interproz-blue hover:bg-interproz-dark"
                           onClick={() => {
                             setIsOpen(false);
-                            window.location.href = "/auth";
+                            setShowLoginModal(true);
                           }}
                         >
                           Sign Up
@@ -182,6 +217,15 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {showLoginModal && (
+          <LoginModal
+            isOpen={showLoginModal}
+            onClose={() => setShowLoginModal(false)}
+          />
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }

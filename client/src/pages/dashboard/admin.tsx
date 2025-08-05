@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import InterpreterCard from "@/components/InterpreterCard";
 import JobCard from "@/components/JobCard";
+import DashboardLayout from "@/components/DashboardLayout";
 import { 
   Users, 
   Calendar, 
@@ -125,8 +126,8 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto p-6">
+    <DashboardLayout>
+      <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -418,6 +419,6 @@ export default function AdminDashboard() {
           </Tabs>
         </motion.div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

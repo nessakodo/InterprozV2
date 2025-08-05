@@ -299,19 +299,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Job routes
-  app.post("/api/jobs", isAuthenticatedDev, async (req: any, res) => {
+  // Missing admin endpoints
+  app.patch('/api/admin/users/:userId', isAuthenticatedDev, async (req: any, res) => {
     try {
-      const userId = req.user.id.toString();
-      const jobData = insertJobSchema.parse({
-        ...req.body,
-        clientId: userId,
-      });
-      
-      const job = await storage.createJob(jobData);
+      const userId = parseInt(req.params.userId);
+      const updatedUser = await storage.updateUser(userId, req.body);
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ message: "Failed to update user" });
+    }
+  });
+
+  app.post('/api/admin/jobs/:jobId/assign', isAuthenticatedDev, async (req: any, res) => {
+    try {
+      const jobId = parseInt(req.params.jobId);
+      const { interpreterId } = req.body;
+      const job = await storage.updateJob(jobId, { interpreterId, status: 'assigned' });
       res.json(job);
-    } catch (error: any) {
-      res.status(400).json({ message: error.message });
+    } catch (error) {
+      console.error("Error assigning job:", error);
+      res.status(500).json({ message: "Failed to assign job" });
+    }
+  });
+
+  // Missing interpreter endpoint
+  app.post('/api/interpreter/availability', isAuthenticatedDev, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const { availability } = req.body;
+      // For now, just return success - in a real app this would update availability in the database
+      res.json({ message: "Availability updated", availability });
+    } catch (error) {
+      console.error("Error updating availability:", error);
+      res.status(500).json({ message: "Failed to update availability" });
+    }
+  });
+
+  // Notification endpoints
+  app.post('/api/notifications/send', isAuthenticatedDev, async (req: any, res) => {
+    try {
+      const { userId, title, message, type, priority, channels } = req.body;
+      
+      // In a real application, you would integrate with email/SMS services
+      console.log('Sending notification:', {
+        userId,
+        title,
+        message,
+        type,
+        priority,
+        channels
+      });
+
+      // For demo purposes, we'll simulate success
+      res.json({
+        success: true,
+        message: 'Notification sent successfully',
+        channels: channels || ['in-app']
+      });
+    } catch (error) {
+      console.error('Error sending notification:', error);
+      res.status(500).json({ message: 'Failed to send notification' });
     }
   });
 

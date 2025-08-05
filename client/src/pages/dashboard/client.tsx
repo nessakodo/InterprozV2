@@ -11,6 +11,8 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import BookingForm from "@/components/BookingForm";
 import JobCard from "@/components/JobCard";
+import DashboardLayout from "@/components/DashboardLayout";
+import CalendarComponent from "@/components/Calendar";
 import { 
   Calendar, 
   Clock, 
@@ -98,8 +100,8 @@ export default function ClientDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto p-6">
+    <DashboardLayout>
+      <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -252,6 +254,25 @@ export default function ClientDashboard() {
                     </div>
                   </CardContent>
                 </Card>
+              </div>
+              
+              {/* Calendar Section */}
+              <div className="mt-6">
+                <CalendarComponent 
+                  compact={true}
+                  events={jobs?.map((job: any) => ({
+                    id: job.id,
+                    title: `${job.language} - ${job.serviceType}`,
+                    date: new Date(job.scheduledDate || job.createdAt),
+                    time: job.scheduledTime || "TBD",
+                    type: 'job' as const,
+                    status: job.status
+                  })) || []}
+                  onEventClick={(event) => {
+                    // Navigate to job details or show modal
+                    console.log('Event clicked:', event);
+                  }}
+                />
               </div>
             </TabsContent>
 
@@ -424,6 +445,6 @@ export default function ClientDashboard() {
           </div>
         </div>
       )}
-    </div>
+    </DashboardLayout>
   );
 }
